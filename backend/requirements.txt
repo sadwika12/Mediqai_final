@@ -1,0 +1,14 @@
+fastapi==0.115.0
+uvicorn[standard]==0.30.6
+pydantic==2.9.2
+
+# Uncomment when you move from the in-memory dummy store to a real database:
+# sqlalchemy==2.0.35
+# psycopg2-binary==2.9.9      # if using PostgreSQL
+# alembic==1.13.2             # for schema migrations
+
+# Uncomment when you plug in the real hybrid quantum-classical model:
+# qiskit==1.2.4
+# qiskit-machine-learning==0.7.2
+# scikit-learn==1.5.2
+# numpy==1.26.4

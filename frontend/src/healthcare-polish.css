@@ -1,0 +1,978 @@
+/* =============================================================================
+   MEDIQA HEALTHCARE PROFESSIONAL POLISH
+   Applied on top of styles.css and landing.css.
+   Scope: visual refinements only — no functional changes.
+   Goal: clinical, trustworthy, production-grade healthcare aesthetic.
+   ============================================================================= */
+
+/* ── 1. TOKEN OVERRIDES ──────────────────────────────────────────────────── */
+/* Slightly more muted background; cleaner whites; less saturated green ramp  */
+:root {
+  --bg: #F4F6F8;               /* cooler, more clinical off-white */
+  --surface: #FFFFFF;
+  --surface-2: #EEF2F3;
+  --line: #D8E2E4;             /* slightly stronger border */
+  --line-soft: #E6EDEE;
+  --shadow-soft: 0 2px 12px rgba(12,30,40,0.06), 0 1px 3px rgba(12,30,40,0.04);
+  --shadow-pop:  0 8px 24px rgba(12,30,40,0.11), 0 2px 6px rgba(12,30,40,0.06);
+
+  /* Moderate corner radii — less pill, more structured */
+  --radius-s: 8px;
+  --radius-m: 12px;
+  --radius-l: 18px;
+
+  /* Navy-based topbar — more clinical than pure forest green */
+  --topbar-bg: #0D2B3E;
+  --topbar-bg2: #1A4560;
+  --topbar-grad: linear-gradient(100deg, #0B2538 0%, #0F3250 40%, #154468 100%);
+
+  /* Hero gradient — deep navy-teal, not forest green */
+  --hero-grad: linear-gradient(130deg, #0A2236 0%, #0D3350 35%, #0E4A6A 70%, #0E5C7A 100%);
+
+  /* Healthcare blue primary (alongside existing teal) */
+  --hc-blue: #1565C0;
+  --hc-blue-light: #E3F2FD;
+  --hc-navy: #0D2B3E;
+}
+
+:root[data-theme="dark"] {
+  --topbar-grad: linear-gradient(100deg, #071824 0%, #0C2438 40%, #113252 100%);
+  --hero-grad: linear-gradient(130deg, #061421 0%, #0A2438 35%, #0C3550 70%, #0B4265 100%);
+}
+
+/* ── 2. BASE TYPOGRAPHY ──────────────────────────────────────────────────── */
+html { font-size: 100%; }  /* reset the 109% bump — cleaner for clinical text */
+
+body {
+  background: var(--bg);
+  color: var(--ink);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+h1, h2, h3, h4, .display {
+  font-family: var(--font-ui);       /* Poppins — more clinical than Playfair for headings */
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: 1.25;
+}
+
+/* Keep display font for decorative numbers only */
+.stat-num, .gauge-score, .hp-stat-text b, .welcome-stat-num {
+  font-family: var(--font-body);
+}
+
+/* ── 3. TOPBAR ───────────────────────────────────────────────────────────── */
+.topbar {
+  height: 64px;
+  background: var(--topbar-grad);
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+  box-shadow: 0 2px 16px rgba(0,0,0,0.25);
+  padding: 0 24px;
+}
+
+/* Remove the large radial glows on topbar — too decorative */
+.topbar::before {
+  display: none;
+}
+
+.topbar .brand-name {
+  font-family: var(--font-ui);
+  font-size: 1.35rem;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+
+/* Search pill — cleaner look */
+.topbar-search {
+  border-radius: 8px;        /* less pill, more form-like */
+  padding: 10px 18px;
+  background: rgba(255,255,255,0.10);
+  border-color: rgba(255,255,255,0.16);
+  max-width: 400px;
+}
+.topbar-search:focus-within {
+  background: rgba(255,255,255,0.95);
+  border-color: rgba(255,255,255,0.95);
+  box-shadow: 0 0 0 3px rgba(255,255,255,0.20);
+}
+.topbar-search-results {
+  border-radius: 10px;
+}
+
+/* Topbar icon buttons */
+.topbar .iconbtn {
+  width: 40px;
+  height: 40px;
+  border-radius: 8px;     /* square-ish, not circular */
+  background: rgba(255,255,255,0.10);
+  border-color: rgba(255,255,255,0.16);
+}
+.topbar .iconbtn:hover {
+  background: rgba(255,255,255,0.20);
+  border-color: rgba(255,255,255,0.28);
+}
+
+/* User button */
+.user-btn {
+  border-radius: 8px;
+  height: 40px;
+}
+
+/* Topbar pills (Log in / Sign up) */
+.topbar .pillbtn.ghost {
+  border-radius: 8px;
+  padding: 8px 16px;
+}
+.topbar .pillbtn.solid {
+  border-radius: 8px;
+  padding: 8px 16px;
+  background: #FFFFFF;
+  color: var(--hc-navy);
+  border-color: transparent;
+  box-shadow: none;
+  font-weight: 700;
+  font-size: 0.875rem;
+}
+.topbar .pillbtn.solid:hover {
+  background: #F0F7FF;
+  color: var(--hc-navy);
+}
+
+/* Progress line — keep subtle */
+.topbar-progress {
+  height: 2px;
+}
+
+/* ── 4. SIDEBAR ──────────────────────────────────────────────────────────── */
+.sidebar {
+  width: 260px;
+  border-right: 1px solid var(--line);
+}
+
+.side-item {
+  border-radius: 6px;
+  font-size: 0.875rem;
+  padding: 10px 12px;
+  margin-bottom: 1px;
+}
+
+.side-item.active {
+  background: #EBF4FF;
+  color: #1565C0;
+}
+.side-item.active::before {
+  background: #1565C0;
+  border-radius: 0 4px 4px 0;
+  width: 3px;
+}
+
+.side-section-label {
+  font-size: 0.68rem;
+  letter-spacing: 0.09em;
+  padding: 16px 12px 6px;
+  color: var(--ink-faint);
+}
+
+/* ── 5. BUTTONS ──────────────────────────────────────────────────────────── */
+/* Primary pill buttons: less pill, more standard CTA */
+.pillbtn {
+  border-radius: 8px;
+  padding: 9px 16px;
+  font-size: 0.875rem;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  transition: background 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease, transform 0.15s ease;
+}
+.pillbtn.solid {
+  background: #1565C0;
+  border-color: #1565C0;
+  color: #ffffff;
+}
+.pillbtn.solid:hover {
+  background: #0D47A1;
+  border-color: #0D47A1;
+  color: #ffffff;
+  transform: none;          /* no float effect on standard buttons */
+  box-shadow: 0 2px 8px rgba(21,101,192,0.35);
+}
+.pillbtn.accent {
+  background: #1565C0;
+  border-color: #1565C0;
+}
+.pillbtn.accent:hover {
+  background: #0D47A1;
+  border-color: #0D47A1;
+  filter: none;
+}
+
+/* Back button */
+.backbtn {
+  border-radius: 8px;
+  font-size: 0.875rem;
+  padding: 8px 14px 8px 10px;
+}
+
+/* ── 6. CARDS ────────────────────────────────────────────────────────────── */
+.card {
+  border-radius: var(--radius-m);
+  border: 1px solid var(--line);
+  box-shadow: var(--shadow-soft);
+  padding: 20px;
+}
+
+/* Stat card */
+.stat-card {
+  border-radius: var(--radius-m);
+  border: 1px solid var(--line);
+  box-shadow: var(--shadow-soft);
+  padding: 18px 20px;
+}
+
+/* Disease tiles — less round, more card-like */
+.disease-tile, .dg-tile, .lp-card, .lp-feature, .lp-topic,
+.hp-qa-card, .hp-disease-card, .qa-card, .welcome-quick-tile,
+.welcome-stat-card, .hist-row, .faq-card, .sp-pick {
+  border-radius: 10px;
+  box-shadow: var(--shadow-soft);
+}
+
+/* Reduce aggressive hover lifts */
+.disease-tile:hover, .dg-tile:hover, .hp-qa-card:hover, .hp-disease-card:hover,
+.lp-card:hover, .lp-feature:hover, .lp-topic:hover, .qa-card:hover,
+.welcome-quick-tile:hover, .hist-row:hover, .faq-card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-pop);
+}
+
+/* Make disease tiles left-aligned, not centered */
+.disease-tile {
+  align-items: flex-start;
+  text-align: left;
+  padding: 18px 16px;
+}
+
+/* ── 7. FORM INPUTS ──────────────────────────────────────────────────────── */
+.input {
+  border-radius: 8px;
+  border: 1.5px solid var(--line);
+  padding: 10px 13px;
+  font-size: 0.9375rem;
+  background: #FFFFFF;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+.input:focus {
+  outline: none;
+  border-color: #1565C0;
+  box-shadow: 0 0 0 3px rgba(21,101,192,0.12);
+}
+
+.label {
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: var(--ink-soft);
+  margin-bottom: 6px;
+  letter-spacing: 0.01em;
+}
+
+/* Checkbox rows */
+.checkrow {
+  border-radius: 8px;
+  padding: 12px 14px;
+}
+.checkrow:hover {
+  border-color: #1565C0;
+}
+.checkrow.checked {
+  border-color: #1565C0;
+  background: #EBF4FF;
+}
+.checkbox-box {
+  border-radius: 5px;
+}
+.checkrow.checked .checkbox-box {
+  background: #1565C0;
+  border-color: #1565C0;
+}
+
+/* ── 8. TABS ─────────────────────────────────────────────────────────────── */
+.tabs {
+  border-radius: 8px;
+  background: var(--surface-2);
+  padding: 4px;
+  gap: 4px;
+  width: fit-content;
+}
+.tab {
+  border-radius: 6px;
+  font-size: 0.85rem;
+  padding: 8px 14px;
+}
+.tab.active {
+  background: #FFFFFF;
+  color: #1565C0;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+}
+
+/* ── 9. LANDING PAGE ─────────────────────────────────────────────────────── */
+
+/* Hero: swap forest green for navy-teal; keep depth but reduce blob intensity */
+.lp-hero {
+  border-radius: 16px;
+  background:
+    radial-gradient(50% 80% at 90% 10%, rgba(100,181,246,0.18) 0%, transparent 60%),
+    var(--hero-grad);
+  border: 1px solid rgba(100,181,246,0.20);
+  box-shadow: 0 16px 48px rgba(0,0,0,0.30);
+  padding: clamp(32px,4.5vw,80px) clamp(22px,4.5vw,90px);
+}
+
+/* Reduce dot pattern opacity — too busy */
+.lp-hero::before {
+  background-image: radial-gradient(rgba(255,255,255,0.07) 1px, transparent 1.5px);
+  background-size: 28px 28px;
+}
+
+/* Blobs: more subtle */
+.lp-blob-a { opacity: 0.18; width: 280px; height: 280px; }
+.lp-blob-b { opacity: 0.10; width: 240px; height: 240px; }
+
+/* Hero heading: smaller, tighter */
+.lp-hero-text h1 {
+  font-size: clamp(1.9rem, calc(1rem + 2.8vw), 3.8rem);
+  font-family: var(--font-ui);
+  font-weight: 700;
+  line-height: 1.12;
+  letter-spacing: -0.025em;
+}
+
+/* Hero sub */
+.lp-hero-text p {
+  font-size: clamp(0.96rem, calc(0.85rem + 0.4vw), 1.18rem);
+  line-height: 1.65;
+  color: rgba(214,240,255,0.88);
+  max-width: 52ch;
+}
+
+/* Landing page hero CTA button — clinical navy, not bright orange */
+.lp-btn-main {
+  background: #FFFFFF !important;
+  color: #0D2B3E !important;
+  border-radius: 8px !important;
+  padding: 13px 26px !important;
+  font-size: 0.9375rem !important;
+  font-weight: 700 !important;
+  box-shadow: 0 4px 14px rgba(0,0,0,0.20) !important;
+  border: none !important;
+}
+.lp-btn-main:hover {
+  background: #F0F7FF !important;
+  transform: none !important;
+  filter: none !important;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.25) !important;
+}
+.lp-btn-main svg { transition: transform 0.2s ease; }
+.lp-btn-main:hover svg { transform: translateX(3px); }
+
+.lp-btn-ghost {
+  border-radius: 8px;
+  font-size: 0.9375rem;
+  padding: 13px 22px;
+  background: rgba(255,255,255,0.08);
+  border-color: rgba(255,255,255,0.22);
+}
+.lp-btn-ghost:hover {
+  background: rgba(255,255,255,0.16);
+  transform: none;
+}
+
+/* Section heads: less decorative */
+.lp-bar {
+  width: 40px;
+  height: 3px;
+  background: #1565C0;
+  border-radius: 2px;
+  margin-bottom: 14px;
+}
+
+.lp-head h2 {
+  font-family: var(--font-ui);
+  font-size: clamp(1.6rem, calc(0.9rem + 1.8vw), 2.6rem);
+  letter-spacing: -0.02em;
+  color: var(--ink);
+}
+
+/* Section bands: very subtle tint instead of green tint */
+.lp-band {
+  background: linear-gradient(180deg,
+    transparent 0%,
+    color-mix(in srgb, #1565C0 4%, var(--bg)) 14%,
+    color-mix(in srgb, #1565C0 4%, var(--bg)) 86%,
+    transparent 100%
+  );
+}
+
+/* Cards: professional, structured */
+.lp-card, .lp-feature, .lp-topic {
+  border-radius: 10px;
+  border-color: var(--line);
+}
+
+/* Icon style: navy instead of forest green */
+.lp-icon {
+  background: linear-gradient(135deg, #1565C0, #0D47A1);
+  box-shadow: 0 6px 16px rgba(21,101,192,0.30);
+  border-radius: 12px;
+}
+
+/* Topic card icons */
+.lp-topic-icon {
+  border-radius: 12px;
+}
+.lp-topic:hover .lp-topic-icon {
+  transform: scale(1.05) rotate(-3deg);   /* subtler rotation */
+}
+
+/* Step numbers */
+.lp-step.lit .lp-step-num {
+  background: linear-gradient(135deg, #1565C0, #0D47A1);
+  box-shadow: 0 0 0 5px rgba(21,101,192,0.14), 0 8px 20px rgba(21,101,192,0.40);
+}
+
+/* Final CTA */
+.lp-cta {
+  border-radius: 16px;
+  background:
+    radial-gradient(50% 80% at 100% 0%, rgba(100,181,246,0.22), transparent 60%),
+    var(--hero-grad);
+  border: 1px solid rgba(100,181,246,0.18);
+  box-shadow: 0 16px 48px rgba(0,0,0,0.30);
+  padding: clamp(40px,5.5vw,96px) clamp(22px,5vw,72px);
+}
+.lp-cta h2 {
+  font-family: var(--font-ui);
+  letter-spacing: -0.02em;
+}
+
+/* Remove blob-c (too decorative in CTA) */
+.lp-blob-c { opacity: 0.12; width: 200px; height: 200px; }
+
+/* CTA pulse ring: remove — too animated */
+.lp-cta-pulse::before { display: none; }
+
+/* Outline button */
+.lp-btn-outline {
+  border-radius: 8px;
+  border: 1.5px solid color-mix(in srgb, #1565C0 40%, var(--line));
+  color: #1565C0;
+  font-weight: 600;
+}
+.lp-btn-outline:hover {
+  background: #1565C0;
+  border-color: #1565C0;
+  color: #ffffff;
+  transform: none;
+}
+
+/* Hero art: tone down the ECG glow */
+.lp-ecg-line {
+  stroke: rgba(180,225,255,0.90);
+  filter: none;
+  stroke-width: 3;
+}
+.lp-disc {
+  background: radial-gradient(circle at 35% 28%, rgba(255,255,255,0.16), rgba(255,255,255,0.04) 70%);
+}
+.lp-tile {
+  border-radius: 14px;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.30);
+}
+.lp-ripple { opacity: 0; animation: lpRipple 6s ease-out infinite; }
+
+/* ── 10. WELCOME SCREEN ──────────────────────────────────────────────────── */
+.welcome-hero {
+  border-radius: 14px;
+  background: linear-gradient(135deg, #EBF4FF 0%, #FFFFFF 60%);
+  border: 1px solid var(--line);
+  padding: 36px 32px;
+}
+
+.welcome-badge {
+  border-radius: 6px;
+  background: #EBF4FF;
+  color: #1565C0;
+  font-size: 0.7rem;
+  letter-spacing: 0.04em;
+}
+
+/* Quick action cards: clinical */
+.hp-qa-card {
+  border-radius: 10px;
+  padding: 22px;
+}
+.hp-qa-icon {
+  border-radius: 10px;
+  width: 48px;
+  height: 48px;
+}
+
+/* Disease cards on welcome screen */
+.hp-disease-card {
+  border-radius: 10px;
+  padding: 18px;
+}
+.hp-disease-icon {
+  border-radius: 10px;
+}
+.hp-disease-btn {
+  border-radius: 8px;
+  font-size: 0.8125rem;
+}
+
+/* How it works: navy scheme */
+.hp-how {
+  background: var(--hc-navy);
+  border-radius: 14px;
+  border: 1px solid rgba(100,181,246,0.14);
+  box-shadow: 0 8px 30px rgba(0,0,0,0.20);
+}
+.hp-how-card {
+  border-radius: 10px;
+}
+.hp-how-num {
+  width: 44px;
+  height: 44px;
+  border-radius: 10px;
+  font-size: 0.9rem;
+}
+
+/* Activity section */
+.hp-activity {
+  border-radius: 12px;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  box-shadow: var(--shadow-soft);
+}
+.hp-activity::before {
+  background: linear-gradient(90deg, #1565C0, #1976D2 55%, #42A5F5);
+}
+.hp-tip {
+  border-radius: 12px;
+}
+
+/* Stat cards */
+.hp-stat {
+  border-radius: 10px;
+}
+.hp-stat-badge {
+  border-radius: 10px;
+}
+
+/* Timeline */
+.hp-tl::before {
+  background: linear-gradient(#1565C0, var(--line));
+}
+.hp-tl-icon {
+  border-radius: 10px;
+}
+
+/* ── 11. DISEASE GRID ────────────────────────────────────────────────────── */
+.dg-tile {
+  border-radius: 10px;
+  padding: 20px;
+}
+.dg-tile-icon {
+  border-radius: 12px;
+}
+.dg-unsure {
+  border-radius: 12px;
+  background:
+    radial-gradient(50% 100% at 100% 0%, rgba(100,181,246,0.24), transparent 60%),
+    var(--hero-grad);
+  border: 1px solid rgba(100,181,246,0.22);
+  box-shadow: 0 8px 30px rgba(0,0,0,0.20);
+}
+.dg-btn-light {
+  border-radius: 8px;
+  background: #FFFFFF;
+  color: #0D2B3E;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.18);
+}
+.dg-btn-light:hover {
+  transform: none;
+  filter: brightness(0.97);
+}
+.dg-btn-ghost {
+  border-radius: 8px;
+}
+.dg-btn-ghost:hover {
+  transform: none;
+}
+
+/* ── 12. HEALTH INFO PAGES ───────────────────────────────────────────────── */
+.ph-hero {
+  border-radius: 14px;
+  background:
+    radial-gradient(50% 80% at 92% 6%, rgba(100,181,246,0.22) 0%, transparent 60%),
+    var(--hero-grad);
+  border: 1px solid rgba(100,181,246,0.20);
+  box-shadow: 0 12px 40px rgba(0,0,0,0.22);
+}
+.ph-hero::before {
+  background-image: radial-gradient(rgba(255,255,255,0.06) 1px, transparent 1.5px);
+  background-size: 28px 28px;
+}
+.ph-blob-1 { opacity: 0.18; }
+.ph-blob-2 { opacity: 0.10; }
+
+/* Library modal */
+.lm-head {
+  background:
+    radial-gradient(50% 140% at 100% 0%, rgba(100,181,246,0.28), transparent 60%),
+    var(--hero-grad);
+}
+.lm-box {
+  border-radius: 16px;
+}
+.lm-head-icon {
+  border-radius: 12px;
+}
+.lm-tab.active {
+  color: #1565C0;
+}
+.lm-btn-primary {
+  background: linear-gradient(135deg, #1565C0, #0D47A1);
+  box-shadow: 0 6px 18px rgba(21,101,192,0.35);
+}
+.lm-btn-primary:hover {
+  background: linear-gradient(135deg, #1976D2, #1565C0);
+}
+
+/* ── 13. PAGE HEADERS ────────────────────────────────────────────────────── */
+.pg-head-icon {
+  border-radius: 14px;
+  background: linear-gradient(135deg, #1565C0, #0D47A1);
+  box-shadow: 0 8px 22px rgba(21,101,192,0.40);
+}
+
+/* ── 14. AUTH PAGES ──────────────────────────────────────────────────────── */
+.auth-visual {
+  background: linear-gradient(160deg, #0B2236 0%, #0D3350 45%, #134F78 100%) !important;
+}
+
+.split-auth {
+  border-radius: 0;
+}
+
+/* ── 15. FOOTER ──────────────────────────────────────────────────────────── */
+.site-footer {
+  background: #F0F4F6;
+  border-top: 1px solid var(--line);
+  margin-top: 48px;
+}
+.site-footer-inner {
+  padding: 44px 5vw 32px;
+  gap: 40px;
+}
+.site-footer-col-title {
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  color: var(--ink);
+  text-transform: uppercase;
+  margin-bottom: 12px;
+}
+.site-footer-link {
+  font-size: 0.875rem;
+  color: var(--ink-soft);
+  margin-bottom: 9px;
+  transition: color 0.15s ease;
+}
+.site-footer-link:hover {
+  color: #1565C0;
+}
+.site-footer-bottom {
+  padding: 16px 5vw 24px;
+  font-size: 0.8125rem;
+  border-top: 1px solid var(--line);
+  color: var(--ink-faint);
+}
+.brand-name {
+  font-family: var(--font-ui);
+  font-size: 1.3rem;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+.brand-name span {
+  color: #1565C0;
+}
+/* Footer brand accent — override teal with blue */
+.site-footer .brand-name span {
+  color: #1565C0;
+}
+
+/* ── 16. MODALS ──────────────────────────────────────────────────────────── */
+.modal-box {
+  border-radius: 14px;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.18), 0 2px 8px rgba(0,0,0,0.08);
+}
+.modal-overlay {
+  background: rgba(8,20,28,0.45);
+}
+
+/* ── 17. BADGES ──────────────────────────────────────────────────────────── */
+.badge {
+  border-radius: 6px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  padding: 4px 10px;
+}
+
+/* ── 18. SCROLL-REVEAL ───────────────────────────────────────────────────── */
+/* Shorter, more subtle reveals */
+.rv {
+  transition:
+    opacity 0.55s cubic-bezier(0.2, 0.7, 0.2, 1) var(--rv-d, 0ms),
+    transform 0.65s cubic-bezier(0.2, 0.7, 0.2, 1) var(--rv-d, 0ms);
+}
+.rv-rise:not(.in) { transform: translate3d(0, 28px, 0); }
+.rv-zoom:not(.in) { transform: translate3d(0, 16px, 0) scale(0.96); }
+.rv-left:not(.in) { transform: translate3d(-32px, 0, 0); }
+.rv-right:not(.in) { transform: translate3d(32px, 0, 0); }
+
+/* ── 19. SPLASH SCREEN ───────────────────────────────────────────────────── */
+.splash-wrap {
+  background: linear-gradient(160deg, #0A1F2E 0%, #0D2B3E 50%, #0B2035 100%);
+}
+.splash-stetho path, .splash-stetho circle {
+  stroke: #64B5F6;
+}
+.splash-pulseline path {
+  stroke: #64B5F6;
+}
+.splash-word {
+  font-family: var(--font-ui);
+  font-size: 2.4rem;
+  font-weight: 700;
+  color: #F0F9FF;
+}
+
+/* ── 20. MICRO REFINEMENTS ───────────────────────────────────────────────── */
+
+/* Scroll-to-top button */
+.to-top {
+  background: #1565C0;
+  border: 1px solid rgba(255,255,255,0.20);
+  box-shadow: 0 6px 20px rgba(21,101,192,0.45);
+  border-radius: 8px;
+  width: 42px;
+  height: 42px;
+}
+.to-top.show:hover {
+  transform: translateY(-2px);
+  background: #0D47A1;
+}
+
+/* User dropdown */
+.user-dropdown {
+  border-radius: 12px;
+}
+.user-dd-head {
+  border-radius: 9px;
+  background: linear-gradient(135deg, #EBF4FF 0%, #DCEEFB 100%);
+}
+.user-dd-role {
+  background: rgba(21,101,192,0.12);
+  color: #1565C0;
+}
+.user-avatar {
+  background: linear-gradient(135deg, #90CAF9, #1565C0);
+  color: #FFFFFF;
+}
+
+/* Lang menu */
+.lang-menu {
+  border-radius: 10px;
+}
+
+/* Settings page */
+.set-card {
+  border-radius: 12px;
+  overflow: hidden;
+}
+.set-profile {
+  background: radial-gradient(60% 100% at 80% 0%, rgba(100,181,246,0.28), transparent 56%), var(--hero-grad);
+}
+.set-avatar {
+  background: linear-gradient(135deg, #90CAF9, #1565C0);
+  color: #FFFFFF;
+}
+.set-profile-role {
+  background: rgba(255,255,255,0.14);
+  border-color: rgba(255,255,255,0.24);
+}
+
+/* History rows */
+.hist-row {
+  border-radius: 10px;
+}
+
+/* Gauge */
+.gauge-score {
+  font-family: var(--font-body);
+  font-weight: 700;
+}
+
+/* Bar tracks */
+.bar-track {
+  border-radius: 4px;
+}
+.bar-fill {
+  border-radius: 4px;
+}
+
+/* Drop zone */
+.dropzone {
+  border-radius: 12px;
+}
+
+/* FAQ card */
+.faq-card:hover {
+  transform: none;
+  box-shadow: var(--shadow-soft);
+  border-color: #1565C0;
+}
+
+/* Help contact card */
+.help-contact {
+  border-radius: 12px;
+  background: linear-gradient(135deg, #EBF4FF 0%, #DCEEFB 50%, #FFFFFF 100%);
+}
+
+/* Status dot */
+.status-dot {
+  border-radius: 50%;
+}
+
+/* Table */
+.table-simple th {
+  font-size: 0.7rem;
+  letter-spacing: 0.06em;
+  color: var(--ink-faint);
+  padding: 9px 12px;
+}
+.table-simple td {
+  padding: 13px 12px;
+  font-size: 0.875rem;
+}
+
+/* Symptoms page picker */
+.sp-pick {
+  border-radius: 10px;
+  padding: 14px 8px 12px;
+}
+.sp-pick-icon {
+  border-radius: 12px;
+}
+.sp-summary {
+  border-radius: 14px;
+}
+.sp-group {
+  border-radius: 10px;
+}
+.sp-cta {
+  border-radius: 8px;
+}
+
+/* Admin overview */
+.pg-head-icon {
+  border-radius: 14px;
+}
+
+/* Welcome quick grid */
+.welcome-quick-icon {
+  border-radius: 10px;
+}
+
+/* Tip card */
+.tip-icon {
+  border-radius: 10px;
+}
+
+/* ── 21. DARK MODE ADJUSTMENTS ───────────────────────────────────────────── */
+:root[data-theme="dark"] .site-footer {
+  background: #0F1820;
+  border-top-color: rgba(255,255,255,0.08);
+}
+:root[data-theme="dark"] .lp-hero,
+:root[data-theme="dark"] .lp-cta,
+:root[data-theme="dark"] .hp-how,
+:root[data-theme="dark"] .dg-unsure,
+:root[data-theme="dark"] .ph-hero {
+  box-shadow: 0 16px 48px rgba(0,0,0,0.45);
+}
+:root[data-theme="dark"] .welcome-hero {
+  background: linear-gradient(135deg, #152B44 0%, #152327 60%);
+  border-color: rgba(255,255,255,0.08);
+}
+:root[data-theme="dark"] .user-dd-head {
+  background: linear-gradient(135deg, #152B44 0%, #0F2438 100%);
+}
+:root[data-theme="dark"] .side-item.active {
+  background: #152B44;
+  color: #64B5F6;
+}
+:root[data-theme="dark"] .side-item.active::before {
+  background: #64B5F6;
+}
+:root[data-theme="dark"] .tab.active {
+  color: #64B5F6;
+}
+:root[data-theme="dark"] .checkrow.checked {
+  background: #152B44;
+  border-color: #64B5F6;
+}
+:root[data-theme="dark"] .checkrow.checked .checkbox-box {
+  background: #1565C0;
+  border-color: #1565C0;
+}
+:root[data-theme="dark"] .input:focus {
+  border-color: #64B5F6;
+  box-shadow: 0 0 0 3px rgba(100,181,246,0.15);
+}
+:root[data-theme="dark"] .site-footer-link:hover {
+  color: #64B5F6;
+}
+:root[data-theme="dark"] .brand-name span {
+  color: #64B5F6;
+}
+:root[data-theme="dark"] .lm-btn-primary {
+  background: linear-gradient(135deg, #1565C0, #0D47A1);
+}
+:root[data-theme="dark"] .pg-head-icon {
+  background: linear-gradient(135deg, #1565C0, #0D47A1);
+}
+:root[data-theme="dark"] .topbar .pillbtn.solid {
+  background: rgba(255,255,255,0.12);
+  color: #EBF4FF;
+  border: 1px solid rgba(255,255,255,0.22);
+}
+:root[data-theme="dark"] .topbar .pillbtn.solid:hover {
+  background: rgba(255,255,255,0.20);
+}
+
+/* ── 22. RESPONSIVE FINE-TUNING ──────────────────────────────────────────── */
+@media (max-width: 900px) {
+  .main-content { padding: 18px 16px 60px; }
+  .lp-hero { border-radius: 12px; }
+  .lp-cta { border-radius: 12px; }
+}
+@media (max-width: 520px) {
+  .topbar { padding: 0 14px; gap: 10px; }
+  .topbar .iconbtn { width: 36px; height: 36px; }
+  .topbar .brand-name { font-size: 1.18rem; }
+  .topbar .pillbtn { padding: 7px 12px; font-size: 0.8rem; }
+  .user-btn { height: 36px; }
+  .user-avatar { width: 28px; height: 28px; }
+  .disease-tile { align-items: flex-start; }
+}
